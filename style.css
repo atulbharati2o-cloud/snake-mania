@@ -1,0 +1,115 @@
+/* Reset and Font Setup */
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg-color: #1a1a1a;
+    --board-bg: #2d2d2d;
+    --snake-color: #00ffcc; /* Neon Cyan */
+    --head-color: #ffffff;
+    --food-color: #ff0055; /* Neon Pink */
+    --text-color: #eaeaea;
+    --border-color: #444;
+}
+
+body {
+    position: relative;
+    background-color: var(--bg-color);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Press Start 2P', cursive;  /* Retro Font */
+    color: var(--text-color);
+}
+
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Scoreboard Layout */
+.scoreboard {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 90vmin;
+    padding: 0 10px;
+    font-size: 1.2rem; /* Responsive font size */
+    text-shadow: 2px 2px #000;
+}
+
+/* The Game Board */
+#board {
+    background-color: var(--board-bg);
+    width: 90vmin;
+    height: 90vmin; /* Kept square for easier logic */
+    max-width: 500px; 
+    max-height: 500px;
+    border: 5px solid var(--border-color);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* subtle shadow behind board */
+    display: grid;
+    /* Keeping your 18x18 logic */
+    grid-template-rows: repeat(18, 1fr);
+    grid-template-columns: repeat(18, 1fr);
+}
+
+/* The Snake Body */
+.snakeBody{
+    background-color: var(--snake-color);
+    border: 1px solid rgba(0,0,0,0.2);
+    border-radius: 2px;
+    /* A subtle glow effect for neon look */
+    box-shadow: 0 0 5px var(--snake-color); 
+}
+
+/* The Snake Head */
+.head {
+    background-color: var(--head-color);
+    border: 1px solid #000;
+    border-radius: 4px; /* Slightly rounder to distinguish head */
+    transform: scale(1.1); /* Make head slightly larger */
+    box-shadow: 0 0 8px var(--head-color);
+    z-index: 2; /* Ensure head is above food if they overlap */
+}
+
+/* The Food */
+.food {
+    background-color: var(--food-color);
+    border-radius: 50%; /* Make food a circle */
+    border: 2px solid var(--board-bg);
+    box-shadow: 0 0 10px var(--food-color); /* Strong glow for visibility */
+    transform: scale(0.8); /* Make it look like a small pellet */
+}
+
+.controls-hint {
+    margin-top: 10px;
+    font-size: 0.7rem;
+    opacity: 0.7;
+    font-family: sans-serif;
+}
+
+
+/* Footer */
+/* Footer Styling */
+.footer {
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.55rem;
+    color: var(--text-color);
+    opacity: 0.6;
+    letter-spacing: 1px;
+    text-shadow: 0 0 4px rgba(0, 255, 204, 0.4);
+    pointer-events: none; /* avoids accidental selection */
+}
+
+.footer strong {
+    color: var(--snake-color);
+}
