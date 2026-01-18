@@ -38,10 +38,11 @@ body {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    max-width: 90vmin;
+    max-width: 500px;
     padding: 0 10px;
     font-size: 1.2rem; /* Responsive font size */
     text-shadow: 2px 2px #000;
+    margin-bottom: 10px;
 }
 
 /* The Game Board */
@@ -90,8 +91,9 @@ body {
 .controls-hint {
     margin-top: 10px;
     font-size: 0.7rem;
-    opacity: 0.7;
+    opacity: 0.5;
     font-family: sans-serif;
+    letter-spacing: 1px;
 }
 
 
@@ -113,3 +115,4 @@ body {
 .footer strong {
     color: var(--snake-color);
 }
+
