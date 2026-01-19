@@ -9,6 +9,14 @@ const gameOverSound = new Audio("music/gameover.mp3");
 const musicSound = new Audio("music/music.mp3"); 
 musicSound.loop = true; 
 
+let upArrowBtn = document.querySelector("#upArrow");
+let downArrowBtn = document.querySelector("#downArrow");
+let leftArrowBtn = document.querySelector("#leftArrow");
+let rightArrowBtn = document.querySelector("#rightArrow");
+let pauseplayBtn = document.querySelector("#pauseplay");
+let togglePause = document.querySelector("#pauseplay img");
+
+
 let inputDir = {x: 0, y: 0}; //this shows movement direction initially at rest
 let speed = 5; //How fast the game updates(frames/sec)
 let lastPaintTime = 0; //keeps track of the last time the screen refreshed
@@ -69,7 +77,9 @@ window.addEventListener('keydown', (e) => {
         if(isPaused){
             musicSound.pause();
         }else{
-            musicSound.play();
+            if(inputDir.x !== 0 || inputDir.y !== 0){ //dont play music on space at start
+                musicSound.play();
+            }
         }
         return; //exit immediately
     }
@@ -125,6 +135,47 @@ window.addEventListener('keydown', (e) => {
 });
 
 
+//Mobile Button Controls
+upArrowBtn.addEventListener('click', () => {
+    if(isPaused) return;
+    if(inputDir.y !== 1) { //if not moving down
+        inputDir = {x: 0, y: -1};
+        directionChanged = true;
+    }
+});
+downArrowBtn.addEventListener('click', () => {
+    if(isPaused) return;
+    if(inputDir.y !== -1) { //if not moving up
+        inputDir = {x: 0, y: 1};
+        directionChanged = true;
+    }
+});
+leftArrowBtn.addEventListener('click', () => {
+    if(isPaused) return;
+    if(inputDir.x !== 1) { //if not moving right
+        inputDir = {x: -1, y: 0};
+        directionChanged = true;
+    }
+});
+rightArrowBtn.addEventListener('click', () => {
+    if(isPaused) return;
+    if(inputDir.x !== -1) { //if not moving left
+        inputDir = {x: 1, y: 0};
+        directionChanged = true;
+    }
+});
+pauseplayBtn.addEventListener('click', () => {
+    isPaused = !isPaused;
+    if(isPaused){
+        musicSound.pause();
+        togglePause.src = "images/play.svg";
+    }else{
+        musicSound.play();
+        togglePause.src = "images/pause.svg";
+    }
+});
+
+
 
 //Writing collision cases when Game Over
 function isCollide() {
@@ -162,6 +213,7 @@ function gameEngine(){
         score = 0; 
         speed = 5; 
         scoreBox.innerText = `Score: ${score}`;
+        togglePause.src = "images/play.svg";
 
         return;
     };
@@ -242,3 +294,5 @@ function gameEngine(){
     foodElementBlock.classList.add("food");
     board.appendChild(foodElementBlock);
 };
+gameEngine();
+window.requestAnimationFrame(main);

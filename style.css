@@ -38,43 +38,42 @@ body {
     display: flex;
     justify-content: space-between;
     width: 100%;
-    max-width: 500px;
+    max-width: 90vmin;
     padding: 0 10px;
-    font-size: 1.2rem; /* Responsive font size */
+    font-size: 1.2rem; 
     text-shadow: 2px 2px #000;
-    margin-bottom: 10px;
 }
 
 /* The Game Board */
 #board {
     background-color: var(--board-bg);
     width: 90vmin;
-    height: 90vmin; /* Kept square for easier logic */
-    max-width: 500px; 
+    height: 90vmin; 
+    max-width: 500px;
     max-height: 500px;
     border: 5px solid var(--border-color);
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* subtle shadow behind board */
-    display: grid;
-    /* Keeping your 18x18 logic */
+    display: grid;/* Keeping your 18x18 logic */
     grid-template-rows: repeat(18, 1fr);
     grid-template-columns: repeat(18, 1fr);
 }
 
 /* The Snake Body */
-.snakeBody{
+.snakeBody {
     background-color: var(--snake-color);
-    border: 1px solid rgba(0,0,0,0.2);
+    border: 1px solid rgba(0, 0, 0, 0.2);
     border-radius: 2px;
     /* A subtle glow effect for neon look */
-    box-shadow: 0 0 5px var(--snake-color); 
+    box-shadow: 0 0 5px var(--snake-color);
 }
 
 /* The Snake Head */
 .head {
     background-color: var(--head-color);
     border: 1px solid #000;
-    border-radius: 4px; /* Slightly rounder to distinguish head */
-    transform: scale(1.1); /* Make head slightly larger */
+    border-radius: 4px;
+    /* Slightly rounder to distinguish head */
+    transform: scale(1.1);
     box-shadow: 0 0 8px var(--head-color);
     z-index: 2; /* Ensure head is above food if they overlap */
 }
@@ -84,8 +83,8 @@ body {
     background-color: var(--food-color);
     border-radius: 50%; /* Make food a circle */
     border: 2px solid var(--board-bg);
-    box-shadow: 0 0 10px var(--food-color); /* Strong glow for visibility */
-    transform: scale(0.8); /* Make it look like a small pellet */
+    box-shadow: 0 0 10px var(--food-color);
+    transform: scale(0.8);
 }
 
 .controls-hint {
@@ -93,7 +92,6 @@ body {
     font-size: 0.7rem;
     opacity: 0.5;
     font-family: sans-serif;
-    letter-spacing: 1px;
 }
 
 
@@ -109,10 +107,101 @@ body {
     opacity: 0.6;
     letter-spacing: 1px;
     text-shadow: 0 0 4px rgba(0, 255, 204, 0.4);
-    pointer-events: none; /* avoids accidental selection */
+    pointer-events: none;
 }
 
 .footer strong {
     color: var(--snake-color);
 }
 
+/*mobile controls*/
+.mobile-controls {
+    margin-top: 15px;
+    padding: 20px;
+    display: grid;
+    grid-template-areas:
+        ". up ."
+        "left pause right"
+        ". down .";
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    /* Glass Effect */
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(0, 255, 204, 0.3);
+    border-radius: 24px;
+
+    /* Neon Glow */
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8),
+        0 0 15px rgba(0, 255, 204, 0.1);
+}
+
+#upArrow {
+    grid-area: up;
+}
+
+#leftArrow {
+    grid-area: left;
+}
+
+#pauseplay {
+    grid-area: pause;
+}
+
+#rightArrow {
+    grid-area: right;
+}
+
+#downArrow {
+    grid-area: down;
+}
+
+.controlBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 55px;
+    width: 55px;
+    border-radius: 14px;
+    border: 1.5px solid var(--snake-color);
+    background: rgba(0, 255, 204, 0.05);
+    color: var(--snake-color);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    box-shadow: 0 4px 0 rgba(0, 255, 204, 0.2);
+}
+
+.controlBtn:hover {
+    background-color: rgba(0, 255, 204, 0.15);
+    box-shadow: 0 0 15px var(--snake-color);
+    transform: scale(1.05);
+}
+
+.controlBtn:active {
+    transform: scale(0.95);
+    box-shadow: 0 0px 0 rgba(0, 255, 204, 0.2);
+    background: var(--snake-color);
+}
+
+#pauseplay {
+    border-color: var(--food-color);
+    background: rgba(255, 0, 85, 0.05);
+    box-shadow: 0 4px 0 rgba(255, 0, 85, 0.2);
+}
+
+#pauseplay:hover {
+    background-color: rgba(255, 0, 85, 0.2);
+    box-shadow: 0 0 20px rgba(255, 0, 85, 0.6);
+}
+
+#pauseplay:active {
+    background: var(--food-color);
+}
+
+.controlBtn img {
+    width: 26px;
+    height: 26px;
+    filter: drop-shadow(0 0 2px rgba(0, 255, 204, 0.5));
+    pointer-events: none;
+}
