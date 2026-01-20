@@ -170,6 +170,8 @@ body {
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
     box-shadow: 0 4px 0 rgba(0, 255, 204, 0.2);
+    -webkit-tap-highlight-color: transparent; /* Removes the blue box on tap */
+    touch-action: manipulation; /* Prevents double-tap zooming */
 }
 
 .controlBtn:hover {
@@ -204,4 +206,16 @@ body {
     height: 26px;
     filter: drop-shadow(0 0 2px rgba(0, 255, 204, 0.5));
     pointer-events: none;
+}
+
+/*hides on large screens*/
+@media (min-width: 768px){
+    .mobile-controls{
+        display: none;
+    }
+}
+@media (max-width: 767px){
+    .controls-hint{
+        display: none;
+    }
 }

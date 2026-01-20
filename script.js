@@ -63,7 +63,7 @@ window.requestAnimationFrame(main);
 
 
 //Keyboard Controls(on keyPressing therefore used keydown)
-let isPaused = false;
+let isPaused = true; //game is paused at start
 window.addEventListener('keydown', (e) => {
     //prevent default scrolling 
     if(["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", " ", "Escape"].includes(e.key)){
@@ -76,15 +76,16 @@ window.addEventListener('keydown', (e) => {
         isPaused = !isPaused;
         if(isPaused){
             musicSound.pause();
+            togglePause.src = "images/play.svg";
         }else{
             if(inputDir.x !== 0 || inputDir.y !== 0){ //dont play music on space at start
                 musicSound.play();
             }
+            togglePause.src = "images/pause.svg";
         }
         return; //exit immediately
     }
  
-    if(isPaused) return; //don't listen arrow keys(below fxn) if paused
     if(directionChanged) return; //if key is pressed and direction is changed before reload of the frame don't listen to the keypress
 
     switch(e.key){
@@ -127,6 +128,13 @@ window.addEventListener('keydown', (e) => {
         default:
             break;
     }
+
+    if(["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight", "w", "W", "a", "A", "s", "S", "d", "D"].includes(e.key) && isPaused){
+        isPaused = false;
+        togglePause.src = "images/pause.svg";
+    }
+    
+
     //play music when not paused
     let moving = inputDir.x !== 0 || inputDir.y !== 0; //movement in any one direction either 1 or -1
     if(!isPaused && musicSound.paused && moving){
@@ -136,45 +144,80 @@ window.addEventListener('keydown', (e) => {
 
 
 //Mobile Button Controls
-upArrowBtn.addEventListener('click', () => {
-    if(isPaused) return;
-    if(inputDir.y !== 1) { //if not moving down
-        inputDir = {x: 0, y: -1};
-        directionChanged = true;
-    }
-});
-downArrowBtn.addEventListener('click', () => {
-    if(isPaused) return;
-    if(inputDir.y !== -1) { //if not moving up
-        inputDir = {x: 0, y: 1};
-        directionChanged = true;
-    }
-});
-leftArrowBtn.addEventListener('click', () => {
-    if(isPaused) return;
-    if(inputDir.x !== 1) { //if not moving right
-        inputDir = {x: -1, y: 0};
-        directionChanged = true;
-    }
-});
-rightArrowBtn.addEventListener('click', () => {
-    if(isPaused) return;
-    if(inputDir.x !== -1) { //if not moving left
-        inputDir = {x: 1, y: 0};
-        directionChanged = true;
-    }
-});
 pauseplayBtn.addEventListener('click', () => {
     isPaused = !isPaused;
     if(isPaused){
         musicSound.pause();
         togglePause.src = "images/play.svg";
     }else{
-        musicSound.play();
+        if(inputDir.x !== 0 || inputDir.y !== 0){
+            musicSound.play();
+        }
         togglePause.src = "images/pause.svg";
     }
 });
 
+
+upArrowBtn.addEventListener('click', () => {
+    if(inputDir.y !== 1) { //if not moving down
+        inputDir = {x: 0, y: -1};
+        directionChanged = true;
+
+        if(isPaused){
+            isPaused = false;
+            togglePause.src = "images/pause.svg";
+        }
+
+        if(musicSound.paused){
+            musicSound.play();
+        }
+    }
+});
+downArrowBtn.addEventListener('click', () => {
+    if(inputDir.y !== -1) { //if not moving up
+        inputDir = {x: 0, y: 1};
+        directionChanged = true;
+
+        if(isPaused){
+            isPaused = false;
+            togglePause.src = "images/pause.svg";
+        }
+
+        if(musicSound.paused){
+            musicSound.play();
+        }
+    }
+});
+leftArrowBtn.addEventListener('click', () => {
+    if(inputDir.x !== 1) { //if not moving right
+        inputDir = {x: -1, y: 0};
+        directionChanged = true;
+
+        if(isPaused){
+            isPaused = false;
+            togglePause.src = "images/pause.svg";
+        }
+
+        if(musicSound.paused){
+            musicSound.play();
+        }
+    }
+});
+rightArrowBtn.addEventListener('click', () => {
+    if(inputDir.x !== -1) { //if not moving left
+        inputDir = {x: 1, y: 0};
+        directionChanged = true;
+
+        if(isPaused){
+            isPaused = false;
+            togglePause.src = "images/pause.svg";
+        }
+
+        if(musicSound.paused){
+            musicSound.play();
+        }
+    }
+});
 
 
 //Writing collision cases when Game Over
@@ -194,17 +237,43 @@ function isCollide() {
     return false;
 }
 
+function display(){
+    board.innerHTML = "";
+
+    //Display the Snake
+    snakeArr.forEach( (block, idx) => {
+        const snakeElementBlock = document.createElement("div");
+        snakeElementBlock.style.gridRowStart = block.y;
+        snakeElementBlock.style.gridColumnStart = block.x;
+
+        if(idx === 0){
+            snakeElementBlock.classList.add('head');
+        }else{
+            snakeElementBlock.classList.add('snakeBody');
+        }
+        board.appendChild(snakeElementBlock);
+    });
+
+
+    //Display Food
+    const foodElementBlock = document.createElement('div');
+    foodElementBlock.style.gridRowStart = food.y;
+    foodElementBlock.style.gridColumnStart = food.x;
+    foodElementBlock.classList.add("food");
+    board.appendChild(foodElementBlock);
+}
+display();
 
 function gameEngine(){
-
+       
     if(isPaused) return;
-
+    
     //Game over on collision
     if(isCollide()){
         gameOverSound.play();
         musicSound.pause();
         alert("Game Over🚩!! Press any Arrow key to play again!");
-
+        
         //Reset game
         snakeArr = [{x: 12, y: 14}];
         inputDir = {x: 0, y: 0};
@@ -214,10 +283,10 @@ function gameEngine(){
         speed = 5; 
         scoreBox.innerText = `Score: ${score}`;
         togglePause.src = "images/play.svg";
-
+        isPaused = true;    
+        display();   
         return;
     };
-
 
     //Check if food is eaten
     if(snakeArr[0].x === food.x && snakeArr[0].y === food.y){
@@ -270,29 +339,5 @@ function gameEngine(){
     //moving snake's head
     snakeArr[0] = {x: snakeArr[0].x + inputDir.x, y: snakeArr[0].y + inputDir.y};
 
-
-    //Display the Snake
-    board.innerHTML = "";
-    snakeArr.forEach( (block, idx) => {
-        const snakeElementBlock = document.createElement("div");
-        snakeElementBlock.style.gridRowStart = block.y;
-        snakeElementBlock.style.gridColumnStart = block.x;
-
-        if(idx === 0){
-            snakeElementBlock.classList.add('head');
-        }else{
-            snakeElementBlock.classList.add('snakeBody');
-        }
-        board.appendChild(snakeElementBlock);
-    });
-
-
-    //Display Food
-    const foodElementBlock = document.createElement('div');
-    foodElementBlock.style.gridRowStart = food.y;
-    foodElementBlock.style.gridColumnStart = food.x;
-    foodElementBlock.classList.add("food");
-    board.appendChild(foodElementBlock);
+    display();
 };
-gameEngine();
-window.requestAnimationFrame(main);
