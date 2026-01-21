@@ -98,18 +98,12 @@ body {
 /* Footer */
 /* Footer Styling */
 .footer {
-    position: absolute;
-    bottom: 10px;
-    right: 15px;
-    font-family: 'Press Start 2P', cursive;
-    font-size: 0.55rem;
-    color: var(--text-color);
-    opacity: 0.6;
-    letter-spacing: 1px;
-    text-shadow: 0 0 4px rgba(0, 255, 204, 0.4);
-    pointer-events: none;
+    margin-top: 30px;
+    text-align: center;
+    font-size: 0.45rem;
+    opacity: 0.3;
+    letter-spacing: 2px;
 }
-
 .footer strong {
     color: var(--snake-color);
 }
@@ -174,12 +168,6 @@ body {
     touch-action: manipulation; /* Prevents double-tap zooming */
 }
 
-.controlBtn:hover {
-    background-color: rgba(0, 255, 204, 0.15);
-    box-shadow: 0 0 15px var(--snake-color);
-    transform: scale(1.05);
-}
-
 .controlBtn:active {
     transform: scale(0.95);
     box-shadow: 0 0px 0 rgba(0, 255, 204, 0.2);
@@ -190,11 +178,6 @@ body {
     border-color: var(--food-color);
     background: rgba(255, 0, 85, 0.05);
     box-shadow: 0 4px 0 rgba(255, 0, 85, 0.2);
-}
-
-#pauseplay:hover {
-    background-color: rgba(255, 0, 85, 0.2);
-    box-shadow: 0 0 20px rgba(255, 0, 85, 0.6);
 }
 
 #pauseplay:active {
@@ -217,5 +200,18 @@ body {
 @media (max-width: 767px){
     .controls-hint{
         display: none;
+    }
+}
+
+@media (hover: hover) {  /* Only apply hover on devices WITH hover */
+    .controlBtn:hover {
+        background-color: rgba(0, 255, 204, 0.15);
+        box-shadow: 0 0 15px var(--snake-color);
+        transform: scale(1.05);
+    }
+    
+    #pauseplay:hover {
+        background-color: rgba(255, 0, 85, 0.2);
+        box-shadow: 0 0 20px rgba(255, 0, 85, 0.6);
     }
 }
